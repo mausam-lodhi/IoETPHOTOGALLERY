@@ -6,7 +6,7 @@ import Isotope from "isotope-layout";
 import "magnific-popup";
 // Change the import statement
 import ImagesLoaded from "imagesloaded";
-import API from "../utils/API";
+import API from "../utils/api";
 import "../css/styles.css";
 
 const PortfolioSection = () => {

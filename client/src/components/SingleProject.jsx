@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react"; // Add useState to imports
-import API from "../utils/API";
+import API from "../utils/api";
 import PageLoader from "./Spinner"; // Add this import
 
 const SingleProject = () => {

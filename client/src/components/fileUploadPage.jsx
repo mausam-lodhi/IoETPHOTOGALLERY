@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { FiUpload, FiX, FiFile, FiImage, FiVideo, FiLock } from "react-icons/fi";
 import { FaGraduationCap, FaBriefcase, FaRandom, FaCalendarAlt, FaGlassCheers } from "react-icons/fa";
 import axios from "axios";
-import Spinner from "./spinner";
+import Spinner from "./Spinner";
 
 const FileUploadPage = () => {
 	const correctPassword = "iammausamlodhi";

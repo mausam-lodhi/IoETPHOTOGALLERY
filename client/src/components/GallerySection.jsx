@@ -3,7 +3,7 @@ import $ from "jquery";
 import Isotope from "isotope-layout";
 import "magnific-popup";
 import ImagesLoaded from "imagesloaded"; // Change this import to capital I
-import API from "../utils/API";
+import API from "../utils/api";
 import Spinner from "./Spinner"; // Add this import
 
 // Add imagesLoaded to jQuery
