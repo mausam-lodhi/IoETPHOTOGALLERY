@@ -54,7 +54,7 @@ connectDB();
 
 // Update CORS configuration
 const allowedOrigins = [
-	"http://localhost:5173",
+	"https://gallery-ioet-dhsgsu.onrender.com",
 	// add any other origins you need
 ];
 
