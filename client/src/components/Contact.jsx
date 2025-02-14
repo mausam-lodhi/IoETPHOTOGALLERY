@@ -23,7 +23,7 @@ const Contact = () => {
 		}
 
 		try {
-			const response = await fetch("http://localhost:5000/sendEmail", {
+			const response = await fetch("https://gallery-ioet-dhsgsuu.onrender.com/sendEmail", {
 				// Changed port from 8080 to 5000
 				method: "POST",
 				headers: {
