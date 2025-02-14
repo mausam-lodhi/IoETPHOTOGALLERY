@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Update baseURL to point to the server
 const API = axios.create({
-	baseURL: "http://localhost:5000", // Make sure this matches your server port
+	baseURL: "https://gallery-ioet-dhsgsuu.onrender.com", // Make sure this matches your server port
 	headers: {
 		"Content-Type": "application/json",
 	},
