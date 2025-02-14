@@ -7,11 +7,15 @@ const CountdownTimer = () => {
 
 	const styles = {
 		timerContainer: {
-			minHeight: "100vh",
+			height: "100vh", // Changed from minHeight to height
+			width: "100vw", // Added full viewport width
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 			background: "linear-gradient(135deg, white 0%, #764ba2 100%)",
+			position: "fixed", // Added fixed position
+			top: 0, // Added to ensure full screen coverage
+			left: 0, // Added to ensure full screen coverage
 		},
 		timerDisplay: {
 			padding: "2rem 4rem",
