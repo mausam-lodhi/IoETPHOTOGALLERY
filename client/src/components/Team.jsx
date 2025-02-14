@@ -5,7 +5,6 @@ import Member3 from "../images/members/team3.jpg";
 import Member4 from "../images/members/uday_pic.jpg";
 import Member5 from "../images/members/team3.jpg";
 import Member1 from "../images/members/arjun_pic.jpg";
-
 const Team = () => {
 	return (
 		<section className='team-section'>
