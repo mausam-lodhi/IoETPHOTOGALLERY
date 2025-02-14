@@ -193,14 +193,14 @@ const PortfolioSection = () => {
 				<li>
 					<a className={`filter-link ${activeFilter === ".celebration" ? "active" : ""}`} href='#' onClick={(e) => handleFilterClick(e, ".celebration")}>
 						Celebration
-					</a>
+					 </a>
 				</li>
 			</ul>
 			<div ref={containerRef} className='portfolio-box iso-call'>
 				{images.map((image, index) => (
 					<div key={`${image._id}-${index}`} className={`project-post ${image.category}`} style={{ padding: "1rem" }}>
 						<img src={image.imageUrl} alt={`Portfolio item ${image.imageNumber}`} style={{ width: "100%", height: "auto" }} />
-						<a className='likes' href=''>
+						<a className='likes' href='#'>
 							{image.likes || 0} <i className='fa fa-heart-o'></i>
 						</a>
 						<div className='hover-box'>
