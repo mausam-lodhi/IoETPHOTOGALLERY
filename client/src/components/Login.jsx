@@ -7,6 +7,7 @@ import API from "../utils/api.js";
 import "../css/bootstrap.css";
 import "../css/fontawesome.css";
 import "../css/login.css";
+import PageLoader from "./Spinner";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Login = () => {
 		rollNo: "",
 		password: "",
 	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const [error, setError] = useState("");
 
@@ -64,6 +66,7 @@ const Login = () => {
 	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
+		setIsSubmitting(true); // Start loading
 
 		try {
 			const response = await API.post("/login", loginData);
@@ -103,6 +106,8 @@ const Login = () => {
 			// Handle specific error messages from backend
 			const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
 			setError(errorMessage);
+		} finally {
+			setIsSubmitting(false); // Stop loading
 		}
 	};
 
@@ -121,6 +126,9 @@ const Login = () => {
 					<div className='loader'></div>
 				</div>
 			)}
+
+			{/* Show spinner when form is submitting */}
+			{isSubmitting && <PageLoader />}
 
 			{/* Particles Background */}
 			<div id='particles-js' className='particles-bg'></div>
