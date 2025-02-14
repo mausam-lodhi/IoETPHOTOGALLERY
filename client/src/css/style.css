@@ -2164,11 +2164,11 @@ form#contact-form input[type="submit"]:hover {
 		height: auto !important;
 		display: block;
 		position: sticky;
-		padding-top: 20px;
+		padding-top: 10px;
 	}
 	header .logo {
 		padding: 10px 5px;
-		margin-bottom: 10px;
+		margin-bottom: 8px;
 	}
 	header nav.nav-menu {
 		padding: 0;
