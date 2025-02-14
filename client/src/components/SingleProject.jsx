@@ -12,10 +12,11 @@ const SingleProject = () => {
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
 	const [showAddComment, setShowAddComment] = useState(false);
-	const [loading, setLoading] = useState(false); // Add loading state
+	const [loading, setLoading] = useState(true); // Change initial state to true
 
 	useEffect(() => {
 		const fetchImages = async () => {
+			setLoading(true);
 			try {
 				// Remove the colon before _id in the API endpoint
 				const response = await API.get(`/images/${_id}`);
@@ -31,6 +32,8 @@ const SingleProject = () => {
 			} catch (error) {
 				console.error("Error fetching images:", error);
 				setImage([]);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -166,153 +169,161 @@ const SingleProject = () => {
 
 	return (
 		<>
-			{loading && <PageLoader />} {/* Add spinner when loading */}
-			<section className='page-title-section'>
-				<div className='container-fluid'>
-					<h1>{projectData.title}</h1>
-				</div>
-			</section>
-			<section className='single-project-section'>
-				<div className='single-content'>
-					<div className='container-fluid'>
-						<div className='row'>
-							<div className='col-md-5'>
-								<div className='title-post'>
-									<h1>{projectData.title}</h1>
-									<ul className='project-tags'>
-										{projectData.categories.map((category, index) => (
-											<li key={index}>
-												<Link to='#'>
-													Id : {projectData.imageId}
-													{index < projectData.categories.length - 1 ? "," : ""}
-												</Link>
-											</li>
-										))}
-									</ul>
-									<Link to='#' className='likes'>
-										{projectData.likes}
-										<i
-											onClick={handleLikeClick}
-											className={`fa ${liked ? "fa-heart" : "fa-heart-o"}`}
-											style={{ cursor: "pointer", color: liked ? "red" : "inherit" }}></i>
-									</Link>
-								</div>
-								<div className='share-box'>
-									<div className='row'>
-										<div className='col-md-5'>
-											<span>Share:</span>
-											<p>Image Shared: {projectData.completionYear}</p>
-										</div>
-										<div className='col-md-7'>
-											<ul className='social-icons'>
-												<li>
-													<Link to='#' className='pinterest'>
-														<i className='fa fa-pinterest'></i>
-													</Link>
-												</li>
+			{loading ? (
+				<PageLoader />
+			) : (
+				<>
+					<section className='page-title-section'>
+						<div className='container-fluid'>
+							<h1>{projectData.title}</h1>
+						</div>
+					</section>
+					<section className='single-project-section'>
+						<div className='single-content'>
+							<div className='container-fluid'>
+								<div className='row'>
+									<div className='col-md-5'>
+										<div className='title-post'>
+											<h1>{projectData.title}</h1>
+											<ul className='project-tags'>
+												{projectData.categories.map((category, index) => (
+													<li key={index}>
+														<Link to='#'>
+															Id : {projectData.imageId}
+															{index < projectData.categories.length - 1 ? "," : ""}
+														</Link>
+													</li>
+												))}
 											</ul>
+											<Link to='#' className='likes'>
+												{projectData.likes}
+												<i
+													onClick={handleLikeClick}
+													className={`fa ${liked ? "fa-heart" : "fa-heart-o"}`}
+													style={{ cursor: "pointer", color: liked ? "red" : "inherit" }}></i>
+											</Link>
+										</div>
+										<div className='share-box'>
+											<div className='row'>
+												<div className='col-md-5'>
+													<span>Share:</span>
+													<p>Image Shared: {projectData.completionYear}</p>
+												</div>
+												<div className='col-md-7'>
+													<ul className='social-icons'>
+														<li>
+															<Link to='#' className='pinterest'>
+																<i className='fa fa-pinterest'></i>
+															</Link>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className='col-md-6 col-md-offset-1'>
+										{projectData.description.map((paragraph, index) => (
+											<p key={index}>{paragraph}</p>
+										))}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div className='container-fluid'>
+							<div className='grid-images'>
+								<div className='row'>
+									<div className='col-md-12'>
+										<img
+											src={projectData.images[0]}
+											alt={`Project gallery `}
+											onError={(e) => {
+												e.target.onerror = null;
+												e.target.src = "/images/placeholder.jpg";
+											}}
+										/>
+										<p style={{ display: "flex", gap: "10px" }}>
+											<button
+												style={{
+													color: "gray",
+													border: ".1px solid gray",
+													borderRadius: "10px",
+													padding: "5px 10px",
+													backgroundColor: "white",
+													fontSize: "12px",
+													fontWeight: "bold",
+													cursor: "pointer",
+													transition: "background-color 0.3s, color 0.3s",
+												}}
+												onClick={handlePreviousImage}>
+												Previous Image
+											</button>
+											<button
+												style={{
+													color: "gray",
+													border: ".1px solid gray",
+													borderRadius: "10px",
+													padding: "5px 10px",
+													backgroundColor: "white",
+													fontSize: "12px",
+													fontWeight: "bold",
+													cursor: "pointer",
+													transition: "background-color 0.3s, color 0.3s",
+												}}
+												onClick={handleNextImage}>
+												Next Image
+											</button>
+										</p>
+										<div style={{ display: "flex", justifyContent: "space-between" }}>
+											<button className='btn btn-primary hover-btn' onClick={() => setShowAddComment(true)}>
+												Add Comments
+											</button>
+										</div>
+
+										{showAddComment && (
+											<div className='add-comment-section mt-3'>
+												<textarea
+													value={newComment}
+													onChange={(e) => setNewComment(e.target.value)}
+													placeholder='Add your comment here...'
+													className='form-control mt-2'
+													style={{ minHeight: "100px" }}
+												/>
+												<button className='btn btn-primary mt-2 hover-btn' onClick={handleAddComment}>
+													Submit
+												</button>
+											</div>
+										)}
+
+										{/* Always show comments section */}
+										<div className='view-comments-section mt-4'>
+											<h3>Comments</h3>
+											{comments.length === 0 ? (
+												<p>No comments yet. Be the first to comment!</p>
+											) : (
+												comments
+													.slice()
+													.reverse()
+													.map((comment, index) => (
+														<div key={index} className='comment p-3 mb-2 bg-light rounded hover-comment'>
+															<p className='mb-1'>
+																<strong className='hover-username'>{comment.userRollNo}:</strong>{" "}
+																{comment.comment}
+															</p>
+															<p className='comment-date text-muted mb-0'>
+																{new Date(comment.createdAt).toLocaleString()}
+															</p>
+														</div>
+													))
+											)}
 										</div>
 									</div>
 								</div>
 							</div>
-							<div className='col-md-6 col-md-offset-1'>
-								{projectData.description.map((paragraph, index) => (
-									<p key={index}>{paragraph}</p>
-								))}
-							</div>
 						</div>
-					</div>
-				</div>
-
-				<div className='container-fluid'>
-					<div className='grid-images'>
-						<div className='row'>
-							<div className='col-md-12'>
-								<img
-									src={projectData.images[0]}
-									alt={`Project gallery `}
-									onError={(e) => {
-										e.target.onerror = null;
-										e.target.src = "/images/placeholder.jpg";
-									}}
-								/>
-								<p style={{ display: "flex", gap: "10px" }}>
-									<button
-										style={{
-											color: "gray",
-											border: ".1px solid gray",
-											borderRadius: "10px",
-											padding: "5px 10px",
-											backgroundColor: "white",
-											fontSize: "12px",
-											fontWeight: "bold",
-											cursor: "pointer",
-											transition: "background-color 0.3s, color 0.3s",
-										}}
-										onClick={handlePreviousImage}>
-										Previous Image
-									</button>
-									<button
-										style={{
-											color: "gray",
-											border: ".1px solid gray",
-											borderRadius: "10px",
-											padding: "5px 10px",
-											backgroundColor: "white",
-											fontSize: "12px",
-											fontWeight: "bold",
-											cursor: "pointer",
-											transition: "background-color 0.3s, color 0.3s",
-										}}
-										onClick={handleNextImage}>
-										Next Image
-									</button>
-								</p>
-								<div style={{ display: "flex", justifyContent: "space-between" }}>
-									<button className='btn btn-primary hover-btn' onClick={() => setShowAddComment(true)}>
-										Add Comments
-									</button>
-								</div>
-
-								{showAddComment && (
-									<div className='add-comment-section mt-3'>
-										<textarea
-											value={newComment}
-											onChange={(e) => setNewComment(e.target.value)}
-											placeholder='Add your comment here...'
-											className='form-control mt-2'
-											style={{ minHeight: "100px" }}
-										/>
-										<button className='btn btn-primary mt-2 hover-btn' onClick={handleAddComment}>
-											Submit
-										</button>
-									</div>
-								)}
-
-								{/* Always show comments section */}
-								<div className='view-comments-section mt-4'>
-									<h3>Comments</h3>
-									{comments.length === 0 ? (
-										<p>No comments yet. Be the first to comment!</p>
-									) : (
-										comments
-											.slice()
-											.reverse()
-											.map((comment, index) => (
-												<div key={index} className='comment p-3 mb-2 bg-light rounded hover-comment'>
-													<p className='mb-1'>
-														<strong className='hover-username'>{comment.userRollNo}:</strong> {comment.comment}
-													</p>
-													<p className='comment-date text-muted mb-0'>{new Date(comment.createdAt).toLocaleString()}</p>
-												</div>
-											))
-									)}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+					</section>
+				</>
+			)}
 		</>
 	);
 };
