@@ -10,12 +10,18 @@ import User from "./models/User.js";
 import cloudinary from "cloudinary";
 import UploadImage from "./routes/uploadImage.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
 	api_key: process.env.CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// ES Module fix for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -46,17 +52,34 @@ const connectDB = async () => {
 // Connect to MongoDB
 connectDB();
 
+// Update CORS configuration
+const allowedOrigins = [
+	"http://localhost:5173",
+	// add any other origins you need
+];
+
 // Middleware
 app.use(
 	cors({
-		origin: "https://gallery-ioet-dhsgsu.onrender.com", // Your frontend URL
+		origin: function (origin, callback) {
+			// allow requests with no origin (like mobile apps, curl, etc.)
+			if (!origin) return callback(null, true);
+
+			if (allowedOrigins.indexOf(origin) === -1) {
+				const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+				return callback(new Error(msg), false);
+			}
+			return callback(null, true);
+		},
 		credentials: true,
 		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 		allowedHeaders: ["Content-Type", "Authorization"],
 	})
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/src", express.static(path.join(__dirname, "src")));
 
 // Routes
 app.use("/", authRoutes); // or app.use("/api", authRoutes) if you prefer a prefix
@@ -68,6 +91,18 @@ app.use("/", contactRoutes); // Add this line
 app.use((err, req, res, next) => {
 	console.error(err.stack);
 	res.status(500).json({ error: "Something broke!" });
+});
+
+// Add CORS error handling
+app.use((err, req, res, next) => {
+	if (err.message.includes("CORS")) {
+		res.status(403).json({
+			error: "CORS Error",
+			message: err.message,
+		});
+	} else {
+		next(err);
+	}
 });
 
 // Environment variables

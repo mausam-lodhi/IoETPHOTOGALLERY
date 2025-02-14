@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import MyLogo from "../images/IOETGALLERY (2).png";
@@ -6,7 +6,33 @@ import MyLogo from "../images/IOETGALLERY (2).png";
 const Header = () => {
 	const location = useLocation();
 	const { logout } = useAuth();
+	const [isMenuActive, setIsMenuActive] = useState(false);
 	const isActive = (path) => location.pathname === path;
+
+	// Handle window resize
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth > 991) {
+				const navMenu = document.querySelector(".nav-menu");
+				if (navMenu) {
+					navMenu.classList.remove("active");
+					setIsMenuActive(false);
+				}
+			}
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	const toggleMenu = (e) => {
+		e.preventDefault();
+		const navMenu = document.querySelector(".nav-menu");
+		if (navMenu) {
+			navMenu.classList.toggle("active");
+			setIsMenuActive(!isMenuActive);
+		}
+	};
 
 	return (
 		<header className='clearfix'>
@@ -16,7 +42,7 @@ const Header = () => {
 				</Link>
 			</div>
 
-			<a className='elemadded responsive-link' href='#'>
+			<a className='elemadded responsive-link' href='#' onClick={toggleMenu}>
 				Menu
 			</a>
 
