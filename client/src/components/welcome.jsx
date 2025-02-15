@@ -7,7 +7,7 @@ const WelcomePage = () => {
 		<div className='bg-gray-100 min-h-screen flex flex-col justify-center items-center p-4'>
 			<div className='max-w-md w-full text-center'>
 				<h1 className='text-4xl md:text-5xl font-bold mb-6 transition-all'>Welcome to IoET Gallery</h1>
-				<p className='text-lg md:text-xl text-gray-600 mb-8 px-4'>Explore photos of every events that occurred at our institute</p>
+				<p className='text-lg md:text-xl text-gray-600 mb-8 px-4'>Explore photos of every events that occurred at our institute .  At first time , it usually takes a 5 to 10 seconds to login and signup be patient</p>
 				<div className='flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4'>
 					<a
 						href='/login'
