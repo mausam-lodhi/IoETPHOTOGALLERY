@@ -154,9 +154,9 @@ const VerificationPage = () => {
 						<div className='particles-bg' id='particles-js'>
 							<div className='content-detail'>
 								<form className='forgot-form' onSubmit={handleSubmit}>
-									<div className='imgcontainer'>
+{/* 									<div className='imgcontainer'>
 										<img src='images/logo-2.png' alt='logo' className='avatar' />
-									</div>
+									</div> */}
 									<div className='input-control'>
 										{message && <div className={`alert alert-${message.type === "success" ? "success" : "danger"}`}>{message.text}</div>}
 										<div className='text-center mb-3 '>
