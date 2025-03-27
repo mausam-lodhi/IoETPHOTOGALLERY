@@ -55,6 +55,7 @@ connectDB();
 // Update CORS configuration
 const allowedOrigins = [
 	"https://gallery-ioet-dhsgsu.onrender.com",
+	"https://gallery-ioet.vercel.app/"
 	// add any other origins you need
 ];
 
