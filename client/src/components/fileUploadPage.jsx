@@ -187,7 +187,7 @@ const FileUploadPage = () => {
 
 		try {
 			const token = localStorage.getItem("token"); // Get the auth token
-			const response = await axios.post("http://localhost:5000/images/upload/multiple", formData, {
+			const response = await axios.post("https://gallery-ioet-dhsgsu.onrender.com/images/upload/multiple", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${token}`,
