@@ -88,6 +88,10 @@ app.use("/", authRoutes); // or app.use("/api", authRoutes) if you prefer a pref
 app.use("/", imageRoutes); // This means /images/upload will be the full path
 app.use("/", UploadImage); // This means /images/upload will be the full path
 app.use("/", contactRoutes); // Add this line
+app.get("/health", (req, res) => {
+  res.send("Server is alive");
+});
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
